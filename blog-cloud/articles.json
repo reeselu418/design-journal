@@ -1,0 +1,59 @@
+[
+  {
+    "id": "ws-001",
+    "published": true,
+    "featured": true,
+    "category": "Essay",
+    "coverImage": "",
+    "date": "10 Feb 2026",
+    "readTime": "6 min",
+    "en": {
+      "title": "The invisible grammar of white space",
+      "excerpt": "White space is not the absence of design — it is design. Every margin carries intentional weight.",
+      "body": "## Introduction\n\nWhite space is not the absence of design — it is design. Every margin, every gap, every pause between elements carries intentional weight.\n\nDesigners new to the craft often treat negative space as leftover room — territory that simply hasn't been filled yet.\n\n## Why space communicates hierarchy\n\nIn any composition, the amount of breathing room around an element signals its importance.\n\n> \"Space is the breath of design. Take it away and the work suffocates.\"\n\nThe principle holds at the micro scale too. Letter-spacing, line-height, the padding inside a button — each shapes how confident and readable a piece of design feels.\n\n## Space as emotional tone\n\nBeyond hierarchy, white space is one of the most powerful tools for establishing emotional register. Luxury brands use it to signal exclusivity — the wider the margins, the more precious the contents feel."
+    },
+    "zh": {
+      "title": "留白的隐形语法",
+      "excerpt": "留白不是设计的缺失——它本身就是设计。每一个边距都承载着有意的重量。",
+      "body": "## 引言\n\n留白不是设计的缺失——它本身就是设计。每一个边距、每一个间隙、每一个元素之间的停顿都承载着有意的重量。\n\n初学设计的人往往把负空间视为剩余空间——那些尚未被填满的区域。\n\n## 为什么空间传达层次感\n\n在任何构图中，元素周围的留白量都在传递其重要性。\n\n> \"空间是设计的呼吸。把它拿走，作品就会窒息。\"\n\n这一原则在微观层面同样适用。字间距、行高、按钮内的留白——这些无形的决定塑造了设计作品的可读性。\n\n## 空间作为情感基调\n\n除了层次感，留白还是建立情感基调最有力的工具之一。奢侈品牌用它来传达专属感——边距越宽，内容就显得越珍贵。"
+    }
+  },
+  {
+    "id": "ds-002",
+    "published": true,
+    "featured": false,
+    "category": "Process",
+    "coverImage": "",
+    "date": "15 Jan 2026",
+    "readTime": "5 min",
+    "en": {
+      "title": "How I approach a design system audit",
+      "excerpt": "Before you can build, you need to understand what already exists — and why it exists that way.",
+      "body": "## Starting with what's there\n\nBefore designing a single new component, I spend time with what's already there. Design system audits are unglamorous work, but they're the difference between building something that integrates and something that conflicts.\n\n## The inventory phase\n\nMy process starts with inventory: every button, every type style, every spacing token currently in use — documented without judgment.\n\n> \"The goal isn't to delete variation, but to understand it.\"\n\nSometimes inconsistency is a sign of an evolving product. Sometimes it's technical debt. You need to know which before you start consolidating."
+    },
+    "zh": {
+      "title": "我如何进行设计系统审查",
+      "excerpt": "在构建之前，你需要了解已有的内容——以及它为什么以这种方式存在。",
+      "body": "## 从现有内容开始\n\n在设计任何新组件之前，我会花时间了解已有的内容。设计系统审查是平凡的工作，但它决定了你构建的是融合一致还是相互冲突的东西。\n\n## 清单阶段\n\n我的流程从清单开始：每一个按钮、每一种字体样式、每一个当前使用的间距标记——不带评判地记录下来。\n\n> \"目标不是消除变体，而是理解它。\"\n\n有时不一致是产品演进的信号，有时是技术债务。在开始整合之前，你需要知道是哪种情况。"
+    }
+  },
+  {
+    "id": "ty-003",
+    "published": true,
+    "featured": false,
+    "category": "Reflection",
+    "coverImage": "",
+    "date": "20 Dec 2025",
+    "readTime": "4 min",
+    "en": {
+      "title": "What typography taught me about listening",
+      "excerpt": "Reading type carefully is practice for reading everything else carefully — including people.",
+      "body": "## Seeing type differently\n\nWhen you train yourself to see type — really see it — something shifts in how you pay attention to the world.\n\nThe word \"luxury\" set in Helvetica feels different to the same word in a swash serif. The message is identical. The meaning is not.\n\n## A transferable skill\n\nThis is close reading applied to visual form. And it's a transferable skill.\n\n**Design is fundamentally about listening.** To what a brief actually asks for beneath what it says. To what a user does versus what they tell you."
+    },
+    "zh": {
+      "title": "排版教会我如何倾听",
+      "excerpt": "仔细阅读字体排版是练习仔细阅读其他一切事物的方式——包括人。",
+      "body": "## 以不同方式看待字体\n\n当你训练自己去看字体——真正地看它——你对世界的关注方式就会发生转变。\n\n用Helvetica排版的"奢华"与用华丽衬线字体排版的同一个词感觉不同。信息是相同的，意义却不同。\n\n## 一种可迁移的技能\n\n这是应用于视觉形式的精细阅读，是一种可迁移的技能。\n\n**设计从根本上是关于倾听的。** 倾听任务简报在表面之下真正要求的内容，倾听用户的实际行为而非他们的描述。"
+    }
+  }
+]
