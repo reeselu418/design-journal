@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<style>
+/* ── VARIABLES ── */
+:root {
+  --bg:#fff; --bg-light:#f7f7f5; --bg-dark:#1a1a1a;
+  --ink:#1a1a1a; --ink2:#444; --ink3:#888;
+  --border:#e5e5e3; --border2:#d0d0cc;
+  --accent:#6b5ce7; --accent2:#5448c8;
+  --green:#16a34a; --red:#dc2626;
+  --nav-h:64px;
+  --font-en:'Hanken Grotesk',sans-serif;
+  --font-zh:'Noto Serif SC','Hanken Grotesk',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-en);line-height:1.6;-webkit-font-smoothing:antialiased;}
+body.zh{font-family:var(--font-zh);}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;height:auto;display:block;}
+button{cursor:pointer;font-family:inherit;}
+.view{display:none;} .view.active{display:block;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:300;height:var(--nav-h);background:rgba(255,255,255,0.95);border-bottom:1px solid var(--border);backdrop-filter:blur(12px);display:flex;align-items:center;padding:0 2.5rem;gap:1rem;}
+.nav-logo{font-size:1rem;font-weight:700;letter-spacing:-0.02em;margin-right:auto;cursor:pointer;}
+.nav-links{display:flex;align-items:center;list-style:none;}
+.nav-links li a,.nav-links li button{display:block;font-size:0.85rem;font-weight:500;color:var(--ink2);padding:0.4rem 1rem;transition:color 0.15s;background:none;border:none;font-family:inherit;}
+.nav-links li a:hover,.nav-links li button:hover,.nav-links li a.active{color:var(--ink);font-weight:600;}
+.lang-toggle{display:flex;align-items:center;border:1px solid var(--border);overflow:hidden;}
+.lang-btn{font-size:0.75rem;font-weight:600;padding:0.35rem 0.75rem;background:transparent;border:none;color:var(--ink3);transition:all 0.15s;font-family:inherit;}
+.lang-btn.active{background:var(--ink);color:#fff;}
+.admin-btn{font-size:0.78rem;font-weight:600;padding:0.4rem 1rem;border:1px solid var(--border);background:none;color:var(--ink3);transition:all 0.15s;}
+.admin-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ── CLOUD STATUS ── */
+.cloud-bar{position:fixed;top:var(--nav-h);left:0;right:0;z-index:200;height:0;overflow:hidden;transition:height 0.3s;}
+.cloud-bar.show{height:36px;}
+.cloud-bar-inner{display:flex;align-items:center;justify-content:center;gap:0.6rem;height:36px;font-size:0.78rem;font-weight:500;}
+.cloud-bar.saving .cloud-bar-inner{background:#fef9c3;color:#854d0e;}
+.cloud-bar.saved .cloud-bar-inner{background:#dcfce7;color:#15803d;}
+.cloud-bar.error .cloud-bar-inner{background:#fee2e2;color:#991b1b;}
+
+/* ── PAGE WRAP ── */
+.page-wrap{max-width:1200px;margin:0 auto;padding:calc(var(--nav-h)+3rem) 2.5rem 0;}
+.page-wrap.with-bar{padding-top:calc(var(--nav-h)+36px+3rem);}
+
+/* ── HERO ── */
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;border-bottom:1px solid var(--border);padding-bottom:3.5rem;margin-bottom:3.5rem;}
+.hero-eyebrow{font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:1.2rem;display:block;}
+.hero h1{font-size:clamp(2.2rem,4.5vw,3.8rem);font-weight:700;line-height:1.05;letter-spacing:-0.03em;}
+.hero-desc{font-size:1.05rem;color:var(--ink3);line-height:1.75;margin-bottom:2rem;}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.85rem;font-weight:600;padding:0.8rem 1.6rem;border:none;transition:all 0.15s;font-family:inherit;}
+.btn-dark{background:var(--ink);color:#fff;} .btn-dark:hover{background:var(--accent);}
+.btn-outline{background:transparent;color:var(--ink);border:1px solid var(--border);} .btn-outline:hover{border-color:var(--ink);}
+.btn-accent{background:var(--accent);color:#fff;} .btn-accent:hover{background:var(--accent2);}
+
+/* ── SECTIONS ── */
+.section-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1.5rem;}
+.section-row h2{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--ink3);}
+.section-row button{font-size:0.82rem;font-weight:600;color:var(--accent);background:none;border:none;font-family:inherit;}
+
+/* ── FEATURED CARD ── */
+.featured-card{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border);margin-bottom:3.5rem;cursor:pointer;transition:box-shadow 0.2s;}
+.featured-card:hover{box-shadow:0 8px 40px rgba(107,92,231,0.1);}
+.featured-card:hover .fc-title{color:var(--accent);}
+.fc-image{background:linear-gradient(135deg,#eeeaf8,#ddd8f5,#c9c2ef);min-height:260px;overflow:hidden;position:relative;}
+.fc-image img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.fc-ph{display:flex;align-items:center;justify-content:center;height:100%;min-height:260px;}
+.fc-bars{display:flex;gap:1rem;align-items:flex-end;opacity:0.35;}
+.fc-bar{width:36px;background:var(--accent);border-radius:2px 2px 0 0;}
+.fc-content{padding:2.5rem;display:flex;flex-direction:column;}
+.fc-type{font-size:0.68rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:0.8rem;}
+.fc-title{font-size:1.5rem;font-weight:700;letter-spacing:-0.02em;line-height:1.2;margin-bottom:1rem;transition:color 0.15s;flex:1;}
+.fc-excerpt{font-size:0.95rem;color:var(--ink3);line-height:1.7;margin-bottom:1.5rem;}
+.fc-meta{font-size:0.75rem;color:var(--ink3);border-top:1px solid var(--border);padding-top:1rem;display:flex;justify-content:space-between;}
+
+/* ── ARTICLE GRID ── */
+.topic-filter{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2rem;}
+.topic-pill{font-size:0.78rem;font-weight:500;padding:0.4rem 1rem;border:1px solid var(--border);background:transparent;color:var(--ink2);transition:all 0.15s;font-family:inherit;}
+.topic-pill:hover,.topic-pill.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+.articles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:4rem;}
+.article-card{border:1px solid var(--border);padding:1.8rem;cursor:pointer;transition:border-color 0.15s,box-shadow 0.15s;display:flex;flex-direction:column;}
+.article-card:hover{border-color:var(--accent);box-shadow:0 4px 24px rgba(107,92,231,0.08);}
+.article-card:hover .ac-title{color:var(--accent);}
+.ac-img{width:100%;height:140px;object-fit:cover;margin-bottom:1.2rem;}
+.ac-ph{width:100%;height:140px;background:linear-gradient(135deg,#eeeaf8,#ddd8f5);margin-bottom:1.2rem;display:flex;align-items:center;justify-content:center;font-size:2rem;opacity:0.3;}
+.ac-type{font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:0.6rem;}
+.ac-title{font-size:1.05rem;font-weight:700;letter-spacing:-0.01em;line-height:1.3;margin-bottom:0.6rem;transition:color 0.15s;}
+.ac-excerpt{font-size:0.85rem;color:var(--ink3);line-height:1.65;flex:1;margin-bottom:1.2rem;}
+.ac-meta{font-size:0.72rem;color:var(--ink3);border-top:1px solid var(--border);padding-top:0.8rem;display:flex;justify-content:space-between;}
+.ac-arrow{color:var(--accent);opacity:0;transition:opacity 0.15s;}
+.article-card:hover .ac-arrow{opacity:1;}
+.empty-state{grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--ink3);}
+
+/* ── ARTICLE DETAIL ── */
+.article-breadcrumb{display:flex;align-items:center;gap:0.5rem;font-size:0.78rem;color:var(--ink3);margin-bottom:2rem;}
+.article-breadcrumb button{background:none;border:none;color:var(--ink3);font-family:inherit;font-size:0.78rem;}
+.article-breadcrumb button:hover{color:var(--accent);}
+.article-h1{font-size:clamp(1.8rem,4vw,3rem);font-weight:700;line-height:1.1;letter-spacing:-0.03em;margin-bottom:2rem;}
+.article-meta-bar{display:flex;align-items:center;gap:2rem;font-size:0.82rem;color:var(--ink3);padding-bottom:1.5rem;border-bottom:1px solid var(--border);margin-bottom:2rem;flex-wrap:wrap;}
+.meta-lbl{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink3);display:block;}
+.meta-val{font-size:0.9rem;font-weight:500;color:var(--ink);}
+.share-btn{margin-left:auto;display:inline-flex;align-items:center;gap:0.5rem;font-size:0.8rem;font-weight:500;color:var(--ink3);border:1px solid var(--border);padding:0.4rem 1rem;background:none;transition:all 0.15s;font-family:inherit;}
+.share-btn:hover{border-color:var(--ink);color:var(--ink);}
+.hero-cover{width:100%;aspect-ratio:16/7;object-fit:cover;margin-bottom:2rem;}
+.hero-cover-ph{width:100%;aspect-ratio:16/7;background:linear-gradient(135deg,#eeeaf8,#ddd8f5,#c9c2ef);display:flex;align-items:center;justify-content:center;margin-bottom:2rem;font-size:4rem;opacity:0.2;}
+.content-layout{display:grid;grid-template-columns:1fr 280px;gap:5rem;align-items:start;}
+.article-body{max-width:680px;font-size:1rem;color:var(--ink2);line-height:1.85;}
+.article-body .lead{font-size:1.15rem;color:var(--ink);line-height:1.75;margin-bottom:2rem;border-left:3px solid var(--accent);padding-left:1.5rem;}
+.article-body p{margin-bottom:1.4rem;}
+.article-body h1,.article-body h2{font-size:1.5rem;font-weight:700;letter-spacing:-0.02em;color:var(--ink);margin:3rem 0 1.2rem;line-height:1.25;}
+.article-body h3{font-size:1.1rem;font-weight:700;color:var(--ink);margin:2rem 0 0.8rem;}
+.article-body blockquote{background:var(--bg-light);border-left:3px solid var(--accent);padding:1.5rem 2rem;margin:2rem 0;}
+.article-body blockquote p{color:var(--ink);font-style:italic;margin-bottom:0;}
+.article-body img{width:100%;margin:2rem 0;border:1px solid var(--border);}
+.article-body ul,.article-body ol{padding-left:1.5rem;margin-bottom:1.4rem;}
+.article-body li{margin-bottom:0.4rem;}
+.article-body code{background:var(--bg-light);padding:0.15rem 0.4rem;font-size:0.88rem;}
+.article-body pre{background:#f6f8fa;border:1px solid var(--border);padding:1.5rem;margin:1.5rem 0;overflow-x:auto;}
+.article-body pre code{background:none;padding:0;}
+.article-body a{color:var(--accent);text-decoration:underline;}
+.article-body strong{color:var(--ink);font-weight:600;}
+.article-body hr{border:none;border-top:1px solid var(--border);margin:2.5rem 0;}
+.sidebar{position:sticky;top:calc(var(--nav-h)+2rem);}
+.sidebar-block{border:1px solid var(--border);padding:1.5rem;margin-bottom:1.5rem;}
+.sidebar-block h4{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink3);margin-bottom:1rem;}
+.sidebar-block p{font-size:0.85rem;color:var(--ink2);line-height:1.65;margin-bottom:1rem;}
+.sidebar-nav{list-style:none;}
+.sidebar-nav li button{display:block;width:100%;text-align:left;font-size:0.85rem;color:var(--ink3);padding:0.5rem 0;border:none;border-bottom:1px solid var(--border);transition:color 0.15s;font-weight:500;background:none;font-family:inherit;}
+.sidebar-nav li:last-child button{border-bottom:none;}
+.sidebar-nav li button:hover{color:var(--accent);}
+
+/* ── ADMIN ── */
+#view-admin{background:var(--bg-light);min-height:100vh;}
+.admin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);}
+.admin-header h1{font-size:1.5rem;font-weight:700;letter-spacing:-0.02em;}
+.admin-layout{display:grid;grid-template-columns:260px 1fr;gap:2rem;align-items:start;}
+.admin-sidebar{background:#fff;border:1px solid var(--border);}
+.admin-sidebar-head{padding:1rem 1.2rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.admin-sidebar-head span{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink3);}
+.new-btn{font-size:0.78rem;font-weight:600;color:var(--accent);background:none;border:none;}
+.admin-post-list{list-style:none;max-height:70vh;overflow-y:auto;}
+.admin-post-item{padding:1rem 1.2rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s;}
+.admin-post-item:hover,.admin-post-item.selected{background:var(--bg-light);}
+.admin-post-item.selected{border-left:3px solid var(--accent);padding-left:calc(1.2rem - 3px);}
+.api-title{font-size:0.88rem;font-weight:600;color:var(--ink);margin-bottom:0.2rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.api-meta{font-size:0.72rem;color:var(--ink3);}
+.badge{display:inline-block;font-size:0.6rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;padding:0.1rem 0.4rem;margin-left:0.3rem;}
+.badge-pub{background:#dcfce7;color:#15803d;}
+.badge-draft{background:#f3f4f6;color:#6b7280;}
+.admin-editor{background:#fff;border:1px solid var(--border);}
+.ed-toolbar{display:flex;align-items:center;border-bottom:1px solid var(--border);padding:0 1rem;}
+.ed-tab{font-size:0.8rem;font-weight:500;padding:0.85rem 1.2rem;background:none;border:none;color:var(--ink3);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.15s;font-family:inherit;}
+.ed-tab.active{color:var(--ink);border-bottom-color:var(--accent);}
+.ed-actions{margin-left:auto;display:flex;gap:0.6rem;align-items:center;}
+.save-btn{font-size:0.8rem;font-weight:600;padding:0.45rem 1.1rem;background:var(--accent);color:#fff;border:none;font-family:inherit;transition:background 0.15s;}
+.save-btn:hover{background:var(--accent2);}
+.pub-btn{font-size:0.8rem;font-weight:600;padding:0.45rem 1.1rem;background:var(--ink);color:#fff;border:none;font-family:inherit;}
+.pub-btn:hover{background:var(--accent);}
+.del-btn{font-size:0.8rem;padding:0.45rem 0.8rem;background:transparent;color:var(--red);border:1px solid #fecaca;font-family:inherit;}
+.del-btn:hover{background:#fef2f2;}
+.ed-pane{display:none;padding:1.5rem;} .ed-pane.active{display:block;}
+.field-group{margin-bottom:1.4rem;}
+.field-group label{display:block;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink3);margin-bottom:0.5rem;}
+.field-group input,.field-group select,.field-group textarea{width:100%;background:var(--bg-light);border:1px solid var(--border);padding:0.75rem 1rem;font-family:inherit;font-size:0.92rem;color:var(--ink);outline:none;transition:border-color 0.15s;resize:vertical;}
+.field-group input:focus,.field-group select:focus,.field-group textarea:focus{border-color:var(--accent);}
+.field-group input::placeholder,.field-group textarea::placeholder{color:var(--ink3);}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.md-toolbar{display:flex;gap:0.3rem;padding:0.6rem;background:var(--bg-light);border:1px solid var(--border);border-bottom:none;flex-wrap:wrap;}
+.md-tool{font-size:0.75rem;font-weight:600;padding:0.25rem 0.55rem;background:#fff;border:1px solid var(--border);color:var(--ink2);font-family:monospace;transition:all 0.15s;}
+.md-tool:hover{background:var(--ink);color:#fff;border-color:var(--ink);}
+.md-wrap{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);}
+.md-head{padding:0.5rem 1rem;background:var(--bg-light);border-bottom:1px solid var(--border);font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink3);}
+.md-head.right{border-left:1px solid var(--border);}
+.md-ta{width:100%;min-height:420px;background:#fff;border:none;border-right:1px solid var(--border);padding:1.2rem;font-family:'Courier New',monospace;font-size:0.85rem;line-height:1.7;color:var(--ink2);resize:vertical;outline:none;}
+.md-prev{min-height:420px;padding:1.2rem;overflow-y:auto;font-size:0.9rem;line-height:1.8;color:var(--ink2);}
+.md-prev p{margin-bottom:1rem;} .md-prev h1,.md-prev h2{font-weight:700;color:var(--ink);margin:1.5rem 0 0.8rem;} .md-prev h3{font-weight:600;color:var(--ink);margin:1rem 0 0.5rem;} .md-prev blockquote{border-left:3px solid var(--accent);padding:0.8rem 1.2rem;background:var(--bg-light);margin:1rem 0;} .md-prev img{max-width:100%;margin:1rem 0;} .md-prev code{background:var(--bg-light);padding:0.1rem 0.3rem;} .md-prev pre{background:#f6f8fa;padding:1rem;margin:1rem 0;overflow-x:auto;} .md-prev ul,.md-prev ol{padding-left:1.5rem;margin-bottom:1rem;} .md-prev strong{color:var(--ink);}
+.img-drop{border:2px dashed var(--border2);padding:2rem;text-align:center;background:var(--bg-light);cursor:pointer;transition:all 0.2s;}
+.img-drop:hover,.img-drop.over{border-color:var(--accent);background:#f3f1ff;}
+.img-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem;margin-top:1rem;}
+.img-item{position:relative;aspect-ratio:1;overflow:hidden;border:1px solid var(--border);}
+.img-item img{width:100%;height:100%;object-fit:cover;}
+.img-copy{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.75);color:#fff;border:none;padding:0.3rem;font-size:0.65rem;font-family:inherit;opacity:0;transition:opacity 0.15s;}
+.img-item:hover .img-copy{opacity:1;}
+.img-del{position:absolute;top:0.25rem;right:0.25rem;background:rgba(220,38,38,0.85);color:#fff;border:none;width:20px;height:20px;font-size:0.65rem;}
+.empty-ed{display:flex;align-items:center;justify-content:center;min-height:400px;color:var(--ink3);text-align:center;padding:2rem;}
+
+/* ── GITHUB SETUP WIZARD ── */
+.setup-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;padding:1rem;}
+.setup-box{background:#fff;max-width:560px;width:100%;padding:2.5rem;max-height:90vh;overflow-y:auto;}
+.setup-box h2{font-size:1.4rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:0.5rem;}
+.setup-box p{font-size:0.9rem;color:var(--ink3);line-height:1.7;margin-bottom:1.5rem;}
+.setup-step{background:var(--bg-light);border:1px solid var(--border);padding:1.2rem 1.5rem;margin-bottom:1rem;}
+.setup-step-num{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:0.4rem;}
+.setup-step p{font-size:0.85rem;color:var(--ink2);margin-bottom:0.8rem;}
+.setup-step a{color:var(--accent);text-decoration:underline;}
+.setup-step code{background:#e8e6f0;padding:0.15rem 0.4rem;font-family:monospace;font-size:0.82rem;color:var(--ink);}
+.setup-input{width:100%;background:var(--bg-light);border:1px solid var(--border);padding:0.75rem 1rem;font-family:inherit;font-size:0.9rem;color:var(--ink);outline:none;margin-top:0.5rem;}
+.setup-input:focus{border-color:var(--accent);}
+.setup-btns{display:flex;gap:0.8rem;margin-top:1.5rem;}
+.setup-note{font-size:0.78rem;color:var(--ink3);background:#fef9c3;border:1px solid #fde68a;padding:0.8rem 1rem;margin-top:1rem;}
+
+/* ── FOOTER ── */
+.footer-nl{background:var(--bg-dark);color:#fff;padding:4rem 2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin:4rem -2.5rem 0;}
+.fn-label{font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:1rem;}
+.fn-title{font-size:1.8rem;font-weight:700;line-height:1.2;letter-spacing:-0.02em;}
+.fn-form{display:flex;}
+.fn-input{flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-right:none;padding:0.85rem 1.2rem;font-family:inherit;font-size:0.85rem;color:#fff;outline:none;}
+.fn-input::placeholder{color:rgba(255,255,255,0.35);}
+.fn-sub{background:var(--accent);color:#fff;border:none;padding:0.85rem 1.5rem;font-family:inherit;font-size:0.85rem;font-weight:600;} .fn-sub:hover{background:var(--accent2);}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;padding:3.5rem 0;border-bottom:1px solid var(--border);}
+.fg-logo{font-size:1.1rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:0.8rem;}
+.fg-desc{font-size:0.85rem;color:var(--ink3);line-height:1.65;max-width:260px;}
+.fg-col h5{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink3);margin-bottom:1rem;}
+.fg-col ul{list-style:none;}
+.fg-col ul li button,.fg-col ul li a{display:block;font-size:0.85rem;color:var(--ink2);padding:0.3rem 0;transition:color 0.15s;font-weight:500;background:none;border:none;font-family:inherit;text-align:left;}
+.fg-col ul li button:hover,.fg-col ul li a:hover{color:var(--accent);}
+.footer-bottom{display:flex;justify-content:space-between;padding:1.5rem 0;font-size:0.78rem;color:var(--ink3);}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:#fff;padding:2.5rem;max-width:380px;width:100%;}
+.modal-box h2{font-size:1.2rem;font-weight:700;margin-bottom:1.5rem;}
+.modal-box input{width:100%;border:1px solid var(--border);padding:0.75rem 1rem;font-family:inherit;font-size:0.9rem;outline:none;margin-bottom:1rem;}
+.modal-box input:focus{border-color:var(--accent);}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:2rem;right:2rem;z-index:999;background:var(--ink);color:#fff;padding:0.8rem 1.4rem;font-size:0.85rem;font-weight:500;transform:translateY(100px);opacity:0;transition:all 0.3s;pointer-events:none;max-width:320px;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.ok{background:var(--green);}
+.toast.err{background:var(--red);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  .hero,.featured-card,.content-layout,.footer-nl,.admin-layout{grid-template-columns:1fr;}
+  .articles-grid{grid-template-columns:1fr 1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .md-wrap{grid-template-columns:1fr;}
+  .md-head.right,.md-prev{display:none;}
+  .nav-links{display:none;}
+}
+@media(max-width:600px){
+  .articles-grid,.footer-grid,.field-row,.img-grid{grid-template-columns:1fr;}
+  .page-wrap{padding-left:1.2rem;padding-right:1.2rem;}
+  .footer-nl{margin:4rem -1.2rem 0;padding:3rem 1.2rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="showView('home')">Design Journal</div>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showView('home');return false;" id="nav-home" class="active" data-en="Articles" data-zh="文章">Articles</a></li>
+    <li><a href="#" onclick="showView('topics');return false;" data-en="Topics" data-zh="话题">Topics</a></li>
+    <li><a href="#" onclick="showView('about');return false;" data-en="About" data-zh="关于">About</a></li>
+  </ul>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中文</button>
+  </div>
+  <button class="admin-btn" onclick="openAdminModal()">Admin ⚙</button>
+</nav>
+
+<!-- Cloud status bar -->
+<div class="cloud-bar" id="cloud-bar">
+  <div class="cloud-bar-inner" id="cloud-bar-msg"></div>
+</div>
+
+<!-- ═══ HOME ═══ -->
+<div id="view-home" class="view active">
+  <div class="page-wrap">
+    <section class="hero">
+      <div>
+        <span class="hero-eyebrow" data-en="Design Journal" data-zh="设计笔记">Design Journal</span>
+        <h1 data-en="Writing about design,<br>craft & clarity." data-zh="关于设计、<br>工艺与清晰度。">Writing about design,<br>craft & clarity.</h1>
+      </div>
+      <div>
+        <p class="hero-desc" data-en="A personal platform for exploring design decisions — the visible and invisible, the reasoned and intuitive." data-zh="一个探索设计决策的个人平台——可见的与不可见的，理性的与直觉的。">A personal platform for exploring design decisions.</p>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+          <button class="btn btn-dark" onclick="document.getElementById('articles-anchor').scrollIntoView({behavior:'smooth'})" data-en="Read articles →" data-zh="阅读文章 →">Read articles →</button>
+          <button class="btn btn-outline" onclick="showView('about')" data-en="About" data-zh="关于作者">About</button>
+        </div>
+      </div>
+    </section>
+    <div class="section-row"><h2 data-en="Featured" data-zh="精选">Featured</h2></div>
+    <div id="featured-wrap"></div>
+    <div class="section-row" id="articles-anchor">
+      <h2 data-en="All Articles" data-zh="所有文章">All Articles</h2>
+    </div>
+    <div class="topic-filter" id="topic-filter"></div>
+    <div class="articles-grid" id="articles-grid"></div>
+  </div>
+  <!-- Footer -->
+  <div class="footer-nl">
+    <div><p class="fn-label" data-en="Newsletter" data-zh="订阅">Newsletter</p><h2 class="fn-title" data-en="Stay ahead with design insights." data-zh="获取最新设计见解。">Stay ahead with design insights.</h2></div>
+    <div><div class="fn-form"><input class="fn-input" type="email" placeholder="your@email.com"><button class="fn-sub" data-en="Subscribe" data-zh="订阅">Subscribe</button></div></div>
+  </div>
+  <div class="page-wrap" style="padding-top:0;padding-bottom:0;">
+    <div class="footer-grid">
+      <div><div class="fg-logo">Design Journal</div><p class="fg-desc" data-en="A personal platform for design writing." data-zh="个人设计写作平台。">A personal platform for design writing.</p></div>
+      <div class="fg-col"><h5 data-en="Writing" data-zh="写作">Writing</h5><ul><li><button onclick="showView('home')" data-en="All Articles" data-zh="所有文章">All Articles</button></li><li><button onclick="showView('topics')" data-en="Topics" data-zh="话题">Topics</button></li></ul></div>
+      <div class="fg-col"><h5 data-en="About" data-zh="关于">About</h5><ul><li><button onclick="showView('about')" data-en="The Author" data-zh="作者">The Author</button></li></ul></div>
+      <div class="fg-col"><h5 data-en="Connect" data-zh="社交">Connect</h5><ul><li><a href="#">Twitter / X</a></li><li><a href="#">LinkedIn</a></li><li><a href="#">Dribbble</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span data-en="© 2026 Design Journal." data-zh="© 2026 设计笔记。">© 2026 Design Journal.</span></div>
+  </div>
+</div>
+
+<!-- ═══ ARTICLE ═══ -->
+<div id="view-article" class="view">
+  <div class="page-wrap">
+    <div class="article-breadcrumb">
+      <button onclick="showView('home')" data-en="Home" data-zh="首页">Home</button>
+      <span>›</span><span data-en="Articles" data-zh="文章">Articles</span>
+      <span>›</span><span id="bc-title"></span>
+    </div>
+    <span style="font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:1.5rem;display:block;" id="art-cat"></span>
+    <h1 class="article-h1" id="art-title"></h1>
+    <div class="article-meta-bar">
+      <div><span class="meta-lbl" data-en="Published" data-zh="发布">Published</span><span class="meta-val" id="art-date"></span></div>
+      <div><span class="meta-lbl" data-en="Reading time" data-zh="阅读时间">Reading time</span><span class="meta-val" id="art-time"></span></div>
+      <button class="share-btn" onclick="copyLink()" data-en="🔗 Copy link" data-zh="🔗 复制链接">🔗 Copy link</button>
+    </div>
+    <div id="art-cover"></div>
+    <div class="content-layout">
+      <article class="article-body" id="art-body"></article>
+      <aside class="sidebar">
+        <div class="sidebar-block">
+          <h4 data-en="More articles" data-zh="更多文章">More articles</h4>
+          <ul class="sidebar-nav" id="sidebar-list"></ul>
+        </div>
+        <div class="sidebar-block">
+          <h4 data-en="About the author" data-zh="关于作者">About the author</h4>
+          <p data-en="A designer and writer exploring the intersection of craft and communication." data-zh="一位设计师兼写作者，探索工艺与传播的交叉点。">A designer and writer.</p>
+          <button class="btn btn-outline" style="width:100%;justify-content:center;margin-top:0.5rem;" onclick="showView('about')" data-en="Learn more →" data-zh="了解更多 →">Learn more →</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TOPICS ═══ -->
+<div id="view-topics" class="view">
+  <div class="page-wrap" style="padding-bottom:4rem;">
+    <div style="border-bottom:1px solid var(--border);padding-bottom:2.5rem;margin-bottom:3rem;">
+      <span class="hero-eyebrow" data-en="Browse" data-zh="浏览">Browse</span>
+      <h1 style="font-size:clamp(2rem,4vw,3rem);font-weight:700;letter-spacing:-0.03em;margin-bottom:1rem;" data-en="Topics" data-zh="话题">Topics</h1>
+      <p style="font-size:1rem;color:var(--ink3);" data-en="Explore articles by subject." data-zh="按主题浏览文章。">Explore articles by subject.</p>
+    </div>
+    <div class="articles-grid" id="topics-grid"></div>
+  </div>
+</div>
+
+<!-- ═══ ABOUT ═══ -->
+<div id="view-about" class="view">
+  <div class="page-wrap" style="padding-bottom:4rem;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;border-bottom:1px solid var(--border);padding-bottom:4rem;margin-bottom:4rem;">
+      <div>
+        <span class="hero-eyebrow" data-en="About" data-zh="关于">About</span>
+        <h1 style="font-size:clamp(2.5rem,5vw,4rem);font-weight:700;letter-spacing:-0.03em;line-height:1.05;margin-bottom:0.5rem;" data-en="Your Name" data-zh="你的名字">Your Name</h1>
+        <p style="color:var(--ink3);font-weight:500;margin-bottom:2rem;" data-en="Designer & Writer" data-zh="设计师 & 写作者">Designer & Writer</p>
+        <p style="font-size:1.05rem;color:var(--ink2);line-height:1.8;margin-bottom:1.5rem;" data-en="A designer who writes. Interested in the way visual systems take shape and the quiet decisions that separate intentional design from accidental aesthetics." data-zh="一个写作的设计师。关注视觉系统的形成方式，以及将有意设计与偶然美学区分开来的细微决策。">A designer who writes.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:2rem;">
+          <a href="#" style="font-size:0.82rem;font-weight:600;color:var(--ink2);border:1px solid var(--border);padding:0.45rem 1rem;">Twitter / X ↗</a>
+          <a href="#" style="font-size:0.82rem;font-weight:600;color:var(--ink2);border:1px solid var(--border);padding:0.45rem 1rem;">LinkedIn ↗</a>
+          <a href="#" style="font-size:0.82rem;font-weight:600;color:var(--ink2);border:1px solid var(--border);padding:0.45rem 1rem;">Dribbble ↗</a>
+        </div>
+      </div>
+      <div style="background:linear-gradient(135deg,#eeeaf8,#ddd8f5,#c9c2ef);aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:6rem;font-weight:700;color:rgba(107,92,231,0.25);">YN</div>
+    </div>
+    <h2 style="font-size:1.8rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:2rem;" data-en="Get in touch" data-zh="联系我">Get in touch</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;">
+      <div>
+        <p style="font-size:0.95rem;color:var(--ink3);line-height:1.75;margin-bottom:2rem;" data-en="Whether you have a question or want to collaborate — send a message." data-zh="无论您有疑问还是想合作，请发送消息。">Whether you have a question or want to collaborate.</p>
+        <ul style="list-style:none;">
+          <li style="border-bottom:1px solid var(--border);padding:1rem 0;font-size:0.9rem;"><strong style="display:block;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink3);margin-bottom:0.2rem;">Email</strong><a href="mailto:hello@designjournal.com" style="color:var(--accent);">hello@designjournal.com</a></li>
+        </ul>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1.2rem;">
+        <div class="field-group"><label data-en="Name" data-zh="姓名">Name</label><input type="text" placeholder="Your name"></div>
+        <div class="field-group"><label data-en="Message" data-zh="留言">Message</label><textarea style="min-height:100px;" placeholder="What's on your mind?"></textarea></div>
+        <button class="btn btn-dark" style="align-self:flex-start;" data-en="Send →" data-zh="发送 →">Send →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ADMIN ═══ -->
+<div id="view-admin" class="view">
+  <div class="page-wrap" style="padding-bottom:4rem;">
+    <div class="admin-header">
+      <div>
+        <h1>⚙ Admin</h1>
+        <p style="font-size:0.82rem;color:var(--ink3);margin-top:0.3rem;" id="gh-status-line">Not connected to GitHub</p>
+      </div>
+      <div style="display:flex;gap:0.8rem;">
+        <button class="btn btn-outline" style="font-size:0.82rem;" onclick="openSetup()">⚙ GitHub Settings</button>
+        <button class="btn btn-outline" style="font-size:0.82rem;" onclick="showView('home')">← Back to site</button>
+        <button class="btn btn-dark" style="font-size:0.82rem;" onclick="openNewPost()">+ New Article</button>
+      </div>
+    </div>
+    <div class="admin-layout">
+      <div class="admin-sidebar">
+        <div class="admin-sidebar-head">
+          <span>Articles (<span id="post-count">0</span>)</span>
+          <button class="new-btn" onclick="openNewPost()">+ New</button>
+        </div>
+        <ul class="admin-post-list" id="admin-list"></ul>
+      </div>
+      <div class="admin-editor" id="admin-editor">
+        <div class="empty-ed"><div><div style="font-size:2.5rem;margin-bottom:1rem;">✏️</div><div>Select an article or create a new one.</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Admin Password Modal -->
+<div class="modal-overlay" id="pw-modal">
+  <div class="modal-box">
+    <h2>🔐 Admin</h2>
+    <input type="password" id="pw-input" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
+    <div style="display:flex;gap:0.8rem;">
+      <button class="btn btn-dark" onclick="checkPw()" style="flex:1;">Enter</button>
+      <button class="btn btn-outline" onclick="document.getElementById('pw-modal').classList.remove('open')" style="flex:1;">Cancel</button>
+    </div>
+    <p style="font-size:0.75rem;color:var(--ink3);margin-top:1rem;">Default: <strong>design123</strong></p>
+  </div>
+</div>
+
+<!-- GitHub Setup Modal -->
+<div class="setup-overlay" id="setup-overlay" style="display:none;">
+  <div class="setup-box">
+    <h2>🔗 Connect to GitHub</h2>
+    <p>This lets your articles save to GitHub and sync across all your devices. It takes about 5 minutes to set up.</p>
+
+    <div class="setup-step">
+      <div class="setup-step-num">Step 1 — Create a GitHub account (if needed)</div>
+      <p>Go to <a href="https://github.com/signup" target="_blank">github.com/signup</a> and create a free account.</p>
+    </div>
+
+    <div class="setup-step">
+      <div class="setup-step-num">Step 2 — Create a new repository</div>
+      <p>Go to <a href="https://github.com/new" target="_blank">github.com/new</a>, name it <code>design-journal</code>, set it to <strong>Public</strong>, click <strong>Create repository</strong>.</p>
+    </div>
+
+    <div class="setup-step">
+      <div class="setup-step-num">Step 3 — Upload your files</div>
+      <p>In your new repo, click <strong>uploading an existing file</strong>, drag in both <code>index.html</code> and <code>articles.json</code>, then click <strong>Commit changes</strong>.</p>
+    </div>
+
+    <div class="setup-step">
+      <div class="setup-step-num">Step 4 — Enable GitHub Pages</div>
+      <p>Go to your repo → <strong>Settings</strong> → <strong>Pages</strong> → Source: <strong>Deploy from a branch</strong> → Branch: <code>main</code> → Save. Your site will be live at <code>yourusername.github.io/design-journal</code></p>
+    </div>
+
+    <div class="setup-step">
+      <div class="setup-step-num">Step 5 — Create a Personal Access Token</div>
+      <p>Go to <a href="https://github.com/settings/tokens/new" target="_blank">github.com/settings/tokens/new</a> → Note: <code>design-journal</code> → Expiration: <code>No expiration</code> → Check <strong>repo</strong> scope → Click <strong>Generate token</strong> → <strong>Copy the token immediately</strong> (you won't see it again).</p>
+    </div>
+
+    <div class="setup-step">
+      <div class="setup-step-num">Step 6 — Enter your details below</div>
+      <p>Fill in your GitHub info to connect the admin panel.</p>
+      <div class="field-group" style="margin-bottom:0.8rem;">
+        <label>GitHub Username</label>
+        <input class="setup-input" id="s-owner" placeholder="e.g. johndoe">
+      </div>
+      <div class="field-group" style="margin-bottom:0.8rem;">
+        <label>Repository Name</label>
+        <input class="setup-input" id="s-repo" placeholder="e.g. design-journal" value="design-journal">
+      </div>
+      <div class="field-group" style="margin-bottom:0;">
+        <label>Personal Access Token</label>
+        <input class="setup-input" id="s-token" type="password" placeholder="ghp_xxxxxxxxxxxx">
+      </div>
+    </div>
+
+    <div class="setup-note">🔒 Your token is saved only in your browser (localStorage). It is never sent anywhere except GitHub's official API.</div>
+
+    <div class="setup-btns">
+      <button class="btn btn-dark" onclick="saveGitHubConfig()" style="flex:1;">Save & Connect →</button>
+      <button class="btn btn-outline" onclick="closeSetup()" style="flex:1;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ══════════════════════════════════════════
+   CONFIG — GitHub
+══════════════════════════════════════════ */
+let GH = {
+  owner: localStorage.getItem('gh_owner') || '',
+  repo:  localStorage.getItem('gh_repo')  || 'design-journal',
+  token: localStorage.getItem('gh_token') || '',
+  file:  'articles.json'
+};
+
+function isGHConfigured() { return GH.owner && GH.repo && GH.token; }
+
+/* ══════════════════════════════════════════
+   GITHUB API
+══════════════════════════════════════════ */
+async function ghFetch(path, opts = {}) {
+  const url = `https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${path}`;
+  const res = await fetch(url, {
+    ...opts,
+    headers: {
+      'Authorization': `token ${GH.token}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json',
+      ...(opts.headers || {})
+    }
+  });
+  if (!res.ok) { const e = await res.json(); throw new Error(e.message || res.statusText); }
+  return res.json();
+}
+
+async function loadFromGitHub() {
+  if (!isGHConfigured()) return null;
+  try {
+    const data = await ghFetch(GH.file);
+    const content = atob(data.content.replace(/\n/g, ''));
+    return { articles: JSON.parse(content), sha: data.sha };
+  } catch(e) {
+    console.warn('GitHub load failed:', e.message);
+    return null;
+  }
+}
+
+async function saveToGitHub(articles) {
+  if (!isGHConfigured()) { showToast('GitHub not configured. Changes saved locally only.', ''); return false; }
+  showCloudBar('saving', '☁ Saving to GitHub…');
+  try {
+    // Get current SHA
+    let sha = '';
+    try { const cur = await ghFetch(GH.file); sha = cur.sha; } catch {}
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(articles, null, 2))));
+    await ghFetch(GH.file, {
+      method: 'PUT',
+      body: JSON.stringify({
+        message: 'Update articles via Design Journal admin',
+        content,
+        ...(sha ? { sha } : {})
+      })
+    });
+    showCloudBar('saved', '✓ Saved to GitHub');
+    return true;
+  } catch(e) {
+    showCloudBar('error', '✗ Save failed: ' + e.message);
+    showToast('GitHub save failed: ' + e.message, 'err');
+    return false;
+  }
+}
+
+function showCloudBar(type, msg) {
+  const bar = document.getElementById('cloud-bar');
+  const msgEl = document.getElementById('cloud-bar-msg');
+  bar.className = 'cloud-bar show ' + type;
+  msgEl.textContent = msg;
+  if (type === 'saved') setTimeout(() => { bar.className = 'cloud-bar'; }, 3000);
+}
+
+/* ══════════════════════════════════════════
+   DATA
+══════════════════════════════════════════ */
+let articles = [];
+let lang = 'en';
+let currentId = null;
+let editingId = null;
+
+async function initData() {
+  // Try GitHub first
+  if (isGHConfigured()) {
+    showCloudBar('saving', '☁ Loading from GitHub…');
+    const result = await loadFromGitHub();
+    if (result) {
+      articles = result.articles;
+      localStorage.setItem('dj_articles', JSON.stringify(articles));
+      showCloudBar('saved', '✓ Loaded from GitHub');
+      renderHome();
+      updateGHStatus();
+      return;
+    }
+  }
+  // Fall back to localStorage
+  const local = localStorage.getItem('dj_articles');
+  if (local) { try { articles = JSON.parse(local); } catch { articles = getDefaults(); } }
+  else { articles = getDefaults(); localStorage.setItem('dj_articles', JSON.stringify(articles)); }
+  renderHome();
+  updateGHStatus();
+}
+
+function saveLocal() {
+  localStorage.setItem('dj_articles', JSON.stringify(articles));
+}
+
+async function saveAll() {
+  saveLocal();
+  await saveToGitHub(articles);
+}
+
+function updateGHStatus() {
+  const el = document.getElementById('gh-status-line');
+  if (!el) return;
+  if (isGHConfigured()) {
+    el.textContent = `✓ Connected: ${GH.owner}/${GH.repo}`;
+    el.style.color = 'var(--green)';
+  } else {
+    el.textContent = '⚠ Not connected to GitHub — changes save locally only';
+    el.style.color = 'var(--red)';
+  }
+}
+
+/* ══════════════════════════════════════════
+   DEFAULTS
+══════════════════════════════════════════ */
+function getDefaults() {
+  return [
+    { id:'ws-001', published:true, featured:true, category:'Essay', coverImage:'', date:'10 Feb 2026', readTime:'6 min',
+      en:{ title:'The invisible grammar of white space', excerpt:"White space is not the absence of design — it is design.", body:"## Introduction\n\nWhite space is not the absence of design — it is design. Every margin, every gap, every pause between elements carries intentional weight.\n\n## Why space communicates hierarchy\n\nIn any composition, the amount of breathing room around an element signals its importance.\n\n> \"Space is the breath of design. Take it away and the work suffocates.\"\n\nThe principle holds at the micro scale too. Letter-spacing, line-height, the padding inside a button — each shapes how confident and readable a piece of design feels." },
+      zh:{ title:'留白的隐形语法', excerpt:'留白不是设计的缺失——它本身就是设计。', body:"## 引言\n\n留白不是设计的缺失——它本身就是设计。每一个边距、每一个间隙、每一个元素之间的停顿都承载着有意的重量。\n\n## 为什么空间传达层次感\n\n在任何构图中，元素周围的留白量都在传递其重要性。\n\n> \"空间是设计的呼吸。把它拿走，作品就会窒息。\"\n\n这一原则在微观层面同样适用。字间距、行高、按钮内的留白——这些无形的决定塑造了设计作品的可读性。" }
+    },
+    { id:'ds-002', published:true, featured:false, category:'Process', coverImage:'', date:'15 Jan 2026', readTime:'5 min',
+      en:{ title:'How I approach a design system audit', excerpt:'Before you can build, you need to understand what already exists.', body:"## Starting with what's there\n\nBefore designing a single new component, I spend time with what's already there.\n\n> \"The goal isn't to delete variation, but to understand it.\"\n\nSometimes inconsistency is a sign of an evolving product. Sometimes it's technical debt." },
+      zh:{ title:'我如何进行设计系统审查', excerpt:'在构建之前，你需要了解已有的内容。', body:"## 从现有内容开始\n\n在设计任何新组件之前，我会花时间了解已有的内容。\n\n> \"目标不是消除变体，而是理解它。\"\n\n有时不一致是产品演进的信号，有时是技术债务。" }
+    },
+    { id:'ty-003', published:true, featured:false, category:'Reflection', coverImage:'', date:'20 Dec 2025', readTime:'4 min',
+      en:{ title:'What typography taught me about listening', excerpt:'Reading type carefully is practice for reading everything else carefully.', body:"## Seeing type differently\n\nWhen you train yourself to see type — really see it — something shifts in how you pay attention to the world.\n\n**Design is fundamentally about listening.** To what a brief actually asks for beneath what it says." },
+      zh:{ title:'排版教会我如何倾听', excerpt:'仔细阅读字体排版是练习仔细阅读其他一切事物的方式。', body:"## 以不同方式看待字体\n\n当你训练自己去看字体——真正地看它——你对世界的关注方式就会发生转变。\n\n**设计从根本上是关于倾听的。** 倾听任务简报在表面之下真正要求的内容。" }
+    }
+  ];
+}
+
+/* ══════════════════════════════════════════
+   LANGUAGE
+══════════════════════════════════════════ */
+function setLang(l) {
+  lang = l;
+  document.body.classList.toggle('zh', l === 'zh');
+  document.getElementById('btn-en').classList.toggle('active', l === 'en');
+  document.getElementById('btn-zh').classList.toggle('active', l === 'zh');
+  applyLang();
+  renderHome();
+  if (currentId) renderArticle(currentId);
+}
+function applyLang() {
+  document.querySelectorAll('[data-en]').forEach(el => { const v = el.getAttribute('data-'+lang); if(v) el.innerHTML = v; });
+}
+
+/* ══════════════════════════════════════════
+   ROUTING
+══════════════════════════════════════════ */
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  window.scrollTo(0,0);
+  if (name==='home') renderHome();
+  if (name==='topics') renderTopics();
+  if (name==='admin') { renderAdmin(); updateGHStatus(); }
+  applyLang();
+}
+
+/* ══════════════════════════════════════════
+   HOME
+══════════════════════════════════════════ */
+function renderHome() {
+  const pub = articles.filter(a => a.published);
+  const feat = pub.find(a => a.featured) || pub[0];
+
+  // Featured
+  const fw = document.getElementById('featured-wrap');
+  if (feat) {
+    const d = feat[lang];
+    const img = feat.coverImage
+      ? `<div class="fc-image"><img src="${feat.coverImage}" alt="${d.title}"></div>`
+      : `<div class="fc-image"><div class="fc-ph"><div class="fc-bars"><div class="fc-bar" style="height:50px"></div><div class="fc-bar" style="height:90px"></div><div class="fc-bar" style="height:70px;opacity:0.6"></div><div class="fc-bar" style="height:120px"></div></div></div></div>`;
+    fw.innerHTML = `<div class="featured-card" onclick="openArticle('${feat.id}')">${img}<div class="fc-content"><div class="fc-type">${feat.category}</div><h2 class="fc-title">${d.title}</h2><p class="fc-excerpt">${d.excerpt}</p><div class="fc-meta"><span>${feat.date} · ${feat.readTime} ${lang==='zh'?'阅读':'read'}</span><span style="color:var(--accent)">→</span></div></div></div>`;
+  } else fw.innerHTML = '';
+
+  // Filters
+  const cats = [...new Set(pub.map(a => a.category))];
+  document.getElementById('topic-filter').innerHTML =
+    `<button class="topic-pill active" onclick="filterCat('all',this)">${lang==='zh'?'全部':'All'}</button>` +
+    cats.map(c => `<button class="topic-pill" onclick="filterCat('${c}',this)">${c}</button>`).join('');
+
+  renderGrid(pub);
+}
+
+function renderGrid(list) {
+  const g = document.getElementById('articles-grid');
+  if (!list.length) { g.innerHTML = `<div class="empty-state">${lang==='zh'?'暂无文章。':'No articles yet.'}</div>`; return; }
+  g.innerHTML = list.map(a => {
+    const d = a[lang];
+    const img = a.coverImage ? `<img class="ac-img" src="${a.coverImage}" alt="">` : `<div class="ac-ph">✦</div>`;
+    return `<div class="article-card" onclick="openArticle('${a.id}')">${img}<div class="ac-type">${a.category}</div><h3 class="ac-title">${d.title}</h3><p class="ac-excerpt">${d.excerpt}</p><div class="ac-meta"><span>${a.date} · ${a.readTime} ${lang==='zh'?'阅读':'read'}</span><span class="ac-arrow">→</span></div></div>`;
+  }).join('');
+}
+
+function filterCat(cat, btn) {
+  document.querySelectorAll('.topic-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const pub = articles.filter(a => a.published);
+  renderGrid(cat === 'all' ? pub : pub.filter(a => a.category === cat));
+}
+
+/* ══════════════════════════════════════════
+   ARTICLE DETAIL
+══════════════════════════════════════════ */
+function openArticle(id) {
+  currentId = id;
+  renderArticle(id);
+  showView('article');
+}
+
+function renderArticle(id) {
+  const a = articles.find(x => x.id === id);
+  if (!a) return;
+  const d = a[lang];
+  document.getElementById('bc-title').textContent = d.title;
+  document.getElementById('art-cat').textContent = a.category;
+  document.getElementById('art-title').textContent = d.title;
+  document.getElementById('art-date').textContent = a.date;
+  document.getElementById('art-time').textContent = a.readTime + (lang==='zh'?' 分钟':' min read');
+  document.getElementById('art-cover').innerHTML = a.coverImage
+    ? `<img class="hero-cover" src="${a.coverImage}" alt="">`
+    : `<div class="hero-cover-ph">✦</div>`;
+  const body = document.getElementById('art-body');
+  const paras = d.body.split('\n\n');
+  const lead = paras[0].replace(/^#+\s*/,'');
+  const rest = paras.slice(1).join('\n\n');
+  body.innerHTML = `<p class="lead">${lead}</p>` + marked.parse(rest);
+  body.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+  document.getElementById('sidebar-list').innerHTML = articles.filter(x=>x.published&&x.id!==id).slice(0,5)
+    .map(x=>`<li><button onclick="openArticle('${x.id}')">${x[lang].title}</button></li>`).join('');
+  applyLang();
+}
+
+/* ══════════════════════════════════════════
+   TOPICS
+══════════════════════════════════════════ */
+function renderTopics() {
+  const pub = articles.filter(a => a.published);
+  const cats = [...new Set(pub.map(a => a.category))];
+  const icons = {Essay:'✦',Process:'◎',Reflection:'◷',Opinion:'→','Case Study':'⊞'};
+  document.getElementById('topics-grid').innerHTML = cats.map(c => {
+    const cnt = pub.filter(a=>a.category===c).length;
+    return `<div class="article-card" onclick="showView('home');setTimeout(()=>{const btn=[...document.querySelectorAll('.topic-pill')].find(b=>b.textContent==='${c}');if(btn)filterCat('${c}',btn)},100)"><div style="font-size:1.5rem;margin-bottom:1rem;">${icons[c]||'◆'}</div><div class="ac-type">${c}</div><h3 class="ac-title">${c}</h3><p class="ac-excerpt">${cnt} ${lang==='zh'?'篇文章':'article'+(cnt!==1?'s':'')}</p></div>`;
+  }).join('');
+}
+
+/* ══════════════════════════════════════════
+   ADMIN AUTH
+══════════════════════════════════════════ */
+function openAdminModal() {
+  document.getElementById('pw-modal').classList.add('open');
+  setTimeout(() => document.getElementById('pw-input').focus(), 100);
+}
+function checkPw() {
+  if (document.getElementById('pw-input').value === 'design123') {
+    document.getElementById('pw-modal').classList.remove('open');
+    document.getElementById('pw-input').value = '';
+    showView('admin');
+  } else { showToast('Wrong password','err'); document.getElementById('pw-input').value=''; }
+}
+
+/* ══════════════════════════════════════════
+   GITHUB SETUP
+══════════════════════════════════════════ */
+function openSetup() {
+  document.getElementById('s-owner').value = GH.owner;
+  document.getElementById('s-repo').value = GH.repo;
+  document.getElementById('s-token').value = GH.token;
+  document.getElementById('setup-overlay').style.display = 'flex';
+}
+function closeSetup() { document.getElementById('setup-overlay').style.display = 'none'; }
+async function saveGitHubConfig() {
+  const owner = document.getElementById('s-owner').value.trim();
+  const repo  = document.getElementById('s-repo').value.trim();
+  const token = document.getElementById('s-token').value.trim();
+  if (!owner || !repo || !token) { showToast('Please fill in all fields','err'); return; }
+  GH = { owner, repo, token, file: 'articles.json' };
+  localStorage.setItem('gh_owner', owner);
+  localStorage.setItem('gh_repo', repo);
+  localStorage.setItem('gh_token', token);
+  closeSetup();
+  showToast('Testing connection…','');
+  // Test by loading
+  const result = await loadFromGitHub();
+  if (result) {
+    articles = result.articles;
+    saveLocal();
+    showToast('✓ Connected! Articles loaded from GitHub.','ok');
+    renderAdmin();
+    updateGHStatus();
+  } else {
+    // Try to create the file
+    showToast('Connected! Saving initial articles to GitHub…','ok');
+    await saveToGitHub(articles);
+    renderAdmin();
+    updateGHStatus();
+  }
+}
+
+/* ══════════════════════════════════════════
+   ADMIN RENDER
+══════════════════════════════════════════ */
+function renderAdmin() {
+  document.getElementById('post-count').textContent = articles.length;
+  document.getElementById('admin-list').innerHTML = articles.map(a =>
+    `<li class="admin-post-item ${editingId===a.id?'selected':''}" onclick="editPost('${a.id}')">
+      <div class="api-title">${a.en.title}</div>
+      <div class="api-meta">${a.category} · ${a.date}<span class="badge ${a.published?'badge-pub':'badge-draft'}">${a.published?'Published':'Draft'}</span></div>
+    </li>`
+  ).join('');
+}
+
+/* ══════════════════════════════════════════
+   EDITOR
+══════════════════════════════════════════ */
+function openNewPost() {
+  const id = 'post-' + Date.now();
+  const d = new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+  articles.unshift({ id, published:false, featured:false, category:'Essay', coverImage:'', date:d, readTime:'5 min',
+    en:{ title:'New Article', excerpt:'', body:'' }, zh:{ title:'新文章', excerpt:'', body:'' } });
+  saveLocal();
+  editPost(id);
+  renderAdmin();
+}
+
+function editPost(id) {
+  editingId = id;
+  renderAdmin();
+  const a = articles.find(x => x.id === id);
+  if (!a) return;
+
+  document.getElementById('admin-editor').innerHTML = `
+    <div class="ed-toolbar">
+      <button class="ed-tab active" onclick="swTab('meta',this)">Meta</button>
+      <button class="ed-tab" onclick="swTab('en',this)">English</button>
+      <button class="ed-tab" onclick="swTab('zh',this)">中文</button>
+      <button class="ed-tab" onclick="swTab('imgs',this)">Images</button>
+      <div class="ed-actions">
+        <button class="del-btn" onclick="delPost('${id}')">🗑</button>
+        <button class="save-btn" onclick="savePost('${id}')">Save</button>
+        <button class="pub-btn" onclick="togglePub('${id}')">${a.published?'Unpublish':'Publish'}</button>
+      </div>
+    </div>
+
+    <div class="ed-pane active" id="pane-meta">
+      <div class="field-row">
+        <div class="field-group"><label>Category</label>
+          <select id="f-cat">${['Essay','Process','Reflection','Opinion','Case Study'].map(c=>`<option ${a.category===c?'selected':''}>${c}</option>`).join('')}</select>
+        </div>
+        <div class="field-group"><label>Date</label><input id="f-date" value="${a.date}"></div>
+      </div>
+      <div class="field-row">
+        <div class="field-group"><label>Read Time</label><input id="f-rt" value="${a.readTime}"></div>
+        <div class="field-group"><label>Featured on homepage</label>
+          <select id="f-feat"><option value="false" ${!a.featured?'selected':''}>No</option><option value="true" ${a.featured?'selected':''}>Yes</option></select>
+        </div>
+      </div>
+      <div class="field-group"><label>Cover Image URL (or use Images tab)</label><input id="f-cover" value="${a.coverImage}" placeholder="https://… or paste from Images tab"></div>
+    </div>
+
+    <div class="ed-pane" id="pane-en">
+      <div class="field-group"><label>Title (English)</label><input id="f-en-t" value="${esc(a.en.title)}"></div>
+      <div class="field-group"><label>Excerpt (English)</label><textarea id="f-en-e" style="min-height:70px;">${esc(a.en.excerpt)}</textarea></div>
+      <div class="field-group">
+        <label>Body — Markdown (English)</label>
+        ${mdToolbar('f-en-b','prev-en',false)}
+        <div class="md-wrap">
+          <div><div class="md-head">✏ Write</div><textarea class="md-ta" id="f-en-b" oninput="updatePrev('f-en-b','prev-en')">${esc(a.en.body)}</textarea></div>
+          <div><div class="md-head right">👁 Preview</div><div class="md-prev" id="prev-en"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ed-pane" id="pane-zh">
+      <div class="field-group"><label>标题（中文）</label><input id="f-zh-t" value="${esc(a.zh.title)}"></div>
+      <div class="field-group"><label>摘要（中文）</label><textarea id="f-zh-e" style="min-height:70px;">${esc(a.zh.excerpt)}</textarea></div>
+      <div class="field-group">
+        <label>正文 — Markdown（中文）</label>
+        ${mdToolbar('f-zh-b','prev-zh',true)}
+        <div class="md-wrap">
+          <div><div class="md-head">✏ 编辑</div><textarea class="md-ta" id="f-zh-b" oninput="updatePrev('f-zh-b','prev-zh')">${esc(a.zh.body)}</textarea></div>
+          <div><div class="md-head right">👁 预览</div><div class="md-prev" id="prev-zh"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ed-pane" id="pane-imgs">
+      <p style="font-size:0.85rem;color:var(--ink3);margin-bottom:1.2rem;">Upload images → copy the Markdown snippet → paste into your article body.</p>
+      <div class="img-drop" id="img-drop" onclick="document.getElementById('img-input').click()" ondragover="ev.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="onImgDrop(event)">
+        <div style="font-size:2rem;margin-bottom:0.6rem;">📷</div>
+        <div style="font-size:0.88rem;color:var(--ink3);margin-bottom:0.3rem;">Click to upload or drag & drop</div>
+        <div style="font-size:0.75rem;color:var(--ink3);">PNG, JPG, GIF, WebP</div>
+      </div>
+      <input type="file" id="img-input" accept="image/*" multiple style="display:none" onchange="handleImgs(this.files)">
+      <div class="img-grid" id="img-grid"></div>
+    </div>
+  `;
+
+  updatePrev('f-en-b','prev-en');
+  updatePrev('f-zh-b','prev-zh');
+
+  // Load stored images
+  const stored = JSON.parse(localStorage.getItem('dj_imgs_'+id)||'[]');
+  stored.forEach(img => addImgToGrid(img.url, img.name));
+}
+
+function mdToolbar(taId, prevId, zh) {
+  const tools = zh
+    ? [['粗体','**粗体**'],['斜体','*斜体*'],['H2','## '],['引用','> '],['代码','`代码`'],['链接','[文字](url)'],['图片','![描述](url)'],['---','---\n']]
+    : [['B','**bold**'],['I','*italic*'],['H2','## '],['Quote','> '],['Code','`code`'],['Link','[text](url)'],['Image','![alt](url)'],['---','---\n']];
+  return `<div class="md-toolbar">${tools.map(([l,m])=>`<button class="md-tool" onclick="insertMd('${taId}','${m.replace(/'/g,"\\'")}','${prevId}')">${l}</button>`).join('')}</div>`;
+}
+
+function swTab(name, btn) {
+  document.querySelectorAll('.ed-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.ed-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('pane-'+name)?.classList.add('active');
+}
+
+function updatePrev(taId, prevId) {
+  const ta = document.getElementById(taId), p = document.getElementById(prevId);
+  if(ta&&p) { p.innerHTML = marked.parse(ta.value||''); p.querySelectorAll('pre code').forEach(el=>hljs.highlightElement(el)); }
+}
+
+function insertMd(taId, md, prevId) {
+  const ta = document.getElementById(taId); if(!ta) return;
+  const s=ta.selectionStart, e=ta.selectionEnd, sel=ta.value.substring(s,e);
+  let ins = md;
+  if(sel && md==='**bold**') ins=`**${sel}**`;
+  else if(sel && md==='*italic*') ins=`*${sel}*`;
+  ta.value = ta.value.substring(0,s)+ins+ta.value.substring(e);
+  ta.focus(); updatePrev(taId,prevId);
+}
+
+/* ══════════════════════════════════════════
+   IMAGE UPLOAD
+══════════════════════════════════════════ */
+function onImgDrop(e) {
+  e.preventDefault();
+  document.getElementById('img-drop').classList.remove('over');
+  handleImgs(e.dataTransfer.files);
+}
+function handleImgs(files) {
+  [...files].forEach(file => {
+    if (!file.type.startsWith('image/')) return;
+    const r = new FileReader();
+    r.onload = e => {
+      const url = e.target.result;
+      addImgToGrid(url, file.name);
+      const key = 'dj_imgs_'+editingId;
+      const stored = JSON.parse(localStorage.getItem(key)||'[]');
+      stored.push({url, name:file.name});
+      localStorage.setItem(key, JSON.stringify(stored));
+    };
+    r.readAsDataURL(file);
+  });
+}
+function addImgToGrid(url, name) {
+  const g = document.getElementById('img-grid'); if(!g) return;
+  const d = document.createElement('div'); d.className='img-item';
+  d.innerHTML=`<img src="${url}" alt="${name}"><button class="img-copy" onclick="navigator.clipboard?.writeText('![${name}](${url})').then(()=>showToast('Markdown copied!','ok'))">Copy Markdown</button><button class="img-del" onclick="this.parentElement.remove()">✕</button>`;
+  g.appendChild(d);
+}
+
+/* ══════════════════════════════════════════
+   SAVE / PUBLISH / DELETE
+══════════════════════════════════════════ */
+function collectPost(id) {
+  const idx = articles.findIndex(x=>x.id===id); if(idx===-1) return;
+  articles[idx] = { ...articles[idx],
+    category: document.getElementById('f-cat')?.value||articles[idx].category,
+    date:     document.getElementById('f-date')?.value||articles[idx].date,
+    readTime: document.getElementById('f-rt')?.value||articles[idx].readTime,
+    featured: document.getElementById('f-feat')?.value==='true',
+    coverImage: document.getElementById('f-cover')?.value||'',
+    en:{ title:document.getElementById('f-en-t')?.value||'', excerpt:document.getElementById('f-en-e')?.value||'', body:document.getElementById('f-en-b')?.value||'' },
+    zh:{ title:document.getElementById('f-zh-t')?.value||'', excerpt:document.getElementById('f-zh-e')?.value||'', body:document.getElementById('f-zh-b')?.value||'' }
+  };
+}
+async function savePost(id) {
+  collectPost(id);
+  await saveAll();
+  renderAdmin();
+  showToast('Saved ✓','ok');
+}
+async function togglePub(id) {
+  collectPost(id);
+  const idx = articles.findIndex(x=>x.id===id);
+  articles[idx].published = !articles[idx].published;
+  await saveAll();
+  renderAdmin();
+  editPost(id);
+  showToast(articles[idx].published?'Published ✓':'Moved to draft','ok');
+}
+async function delPost(id) {
+  if(!confirm('Delete this article?')) return;
+  articles = articles.filter(x=>x.id!==id);
+  localStorage.removeItem('dj_imgs_'+id);
+  await saveAll();
+  editingId=null;
+  document.getElementById('admin-editor').innerHTML='<div class="empty-ed"><div><div style="font-size:2.5rem;margin-bottom:1rem">✏️</div><div>Select an article or create a new one.</div></div></div>';
+  renderAdmin();
+  showToast('Deleted','err');
+}
+
+/* ══════════════════════════════════════════
+   UTILS
+══════════════════════════════════════════ */
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function copyLink(){ navigator.clipboard?.writeText(location.href); showToast(lang==='zh'?'链接已复制':'Link copied!','ok'); }
+function showToast(msg,type=''){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast show'+(type?' '+type:'');
+  setTimeout(()=>t.className='toast',3000);
+}
+
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
+marked.setOptions({ breaks:true, gfm:true });
+initData();
+</script>
+</body>
+</html>
